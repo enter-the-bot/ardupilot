@@ -9,30 +9,30 @@
 #include <sys/socket.h>
 #include <netdb.h>
 
-#include "TCPServerDevice.h"
+#include "TCPBlockingServerDevice.h"
 
-TCPServerDevice::TCPServerDevice(const char *ip, uint16_t port):
+TCPBlockingServerDevice::TCPBlockingServerDevice(const char *ip, uint16_t port):
     _ip(ip),
     _port(port)
 {
 }
 
-TCPServerDevice::~TCPServerDevice()
+TCPBlockingServerDevice::~TCPBlockingServerDevice()
 {
 
 }
 
-ssize_t TCPServerDevice::write(const uint8_t *buf, uint16_t n)
+ssize_t TCPBlockingServerDevice::write(const uint8_t *buf, uint16_t n)
 {
     return ::send(_net_fd, buf, n, 0);
 }
 
-ssize_t TCPServerDevice::read(uint8_t *buf, uint16_t n)
+ssize_t TCPBlockingServerDevice::read(uint8_t *buf, uint16_t n)
 {
     return ::recv(_net_fd, buf, n, 0);
 }
 
-bool TCPServerDevice::open()
+bool TCPBlockingServerDevice::open()
 {
     int one=1;
     struct sockaddr_in sockaddr;
@@ -111,7 +111,7 @@ bool TCPServerDevice::open()
     return true;
 }
 
-bool TCPServerDevice::close()
+bool TCPBlockingServerDevice::close()
 {
     if (::close(_listen_fd) < 0) {
         perror("close");
@@ -126,11 +126,11 @@ bool TCPServerDevice::close()
     return true;
 }
 
-void TCPServerDevice::set_blocking(bool blocking)
+void TCPBlockingServerDevice::set_blocking(bool blocking)
 {
 }
 
-void TCPServerDevice::set_speed(uint32_t speed)
+void TCPBlockingServerDevice::set_speed(uint32_t speed)
 {
 
 }
